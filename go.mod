@@ -42,6 +42,8 @@ require (
 	modernc.org/sqlite v1.33.1
 )
 
+replace github.com/hyperledger-labs/fabric-smart-client => github.com/mbrandenburger/fabric-smart-client v0.0.0-20250513171131-f3c1b483ff73
+
 require (
 	cel.dev/expr v0.16.1 // indirect
 	cloud.google.com/go v0.116.0 // indirect
@@ -240,7 +242,6 @@ require (
 	github.com/sykesm/zap-logfmt v0.0.4 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.12 // indirect
-	github.com/uptrace/opentelemetry-go-extra/otelsql v0.3.2 // indirect
 	github.com/whyrusleeping/go-keyspace v0.0.0-20160322163242-5b898ac5add1 // indirect
 	github.com/wlynxg/anet v0.0.5 // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect
