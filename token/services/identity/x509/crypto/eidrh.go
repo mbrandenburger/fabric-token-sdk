@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/hyperledger-labs/fabric-smart-client/pkg/utils/errors"
-	"github.com/hyperledger-labs/fabric-smart-client/platform/common/utils/hash"
+	"github.com/hyperledger-labs/fabric-token-sdk/token/services/utils"
 )
 
 func GetEnrollmentID(id []byte) (string, error) {
@@ -37,5 +37,5 @@ func GetRevocationHandle(id []byte) ([]byte, error) {
 	if err != nil {
 		return nil, errors.WithMessagef(err, "Failed to marshal PKI public key")
 	}
-	return []byte(hash.Hashable(encoded).String()), nil
+	return []byte(utils.Hashable(encoded).String()), nil
 }

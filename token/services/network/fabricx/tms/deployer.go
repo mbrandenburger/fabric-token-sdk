@@ -10,7 +10,6 @@ import (
 	"reflect"
 
 	cdriver "github.com/hyperledger-labs/fabric-smart-client/platform/common/driver"
-	"github.com/hyperledger-labs/fabric-smart-client/platform/common/utils"
 	"github.com/hyperledger-labs/fabric-smart-client/platform/view/services"
 	"github.com/hyperledger-labs/fabric-token-sdk/token"
 	"github.com/hyperledger-labs/fabric-token-sdk/token/services/config"
@@ -19,6 +18,7 @@ import (
 	"github.com/hyperledger-labs/fabric-token-sdk/token/services/network/common/rws/translator"
 	"github.com/hyperledger-labs/fabric-token-sdk/token/services/network/fabric"
 	"github.com/hyperledger-labs/fabric-token-sdk/token/services/network/fabricx/pp"
+	"github.com/hyperledger-labs/fabric-token-sdk/token/services/utils"
 	"github.com/hyperledger/fabric-x-committer/api/protoblocktx"
 )
 
@@ -121,11 +121,8 @@ func (s *deployerService) createPublicParametersTx(ppRaw []byte, namespaceID cdr
 	if err != nil {
 		return nil, err
 	}
-	valueHash, err := utils.SHA256(ppRaw)
-	if err != nil {
-		return nil, err
-	}
 
+	valueHash := utils.Hashable(ppRaw).Raw()
 	tx := &protoblocktx.Tx{
 		Namespaces: []*protoblocktx.TxNamespace{{
 			NsId:        namespaceID,
