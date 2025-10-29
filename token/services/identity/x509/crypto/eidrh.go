@@ -7,12 +7,11 @@ SPDX-License-Identifier: Apache-2.0
 package crypto
 
 import (
-	"crypto/sha256"
 	"crypto/x509"
-	"encoding/base64"
 	"strings"
 
 	"github.com/hyperledger-labs/fabric-smart-client/pkg/utils/errors"
+	"github.com/hyperledger-labs/fabric-token-sdk/token/services/utils"
 )
 
 func GetEnrollmentID(id []byte) (string, error) {
@@ -38,6 +37,5 @@ func GetRevocationHandle(id []byte) ([]byte, error) {
 	if err != nil {
 		return nil, errors.WithMessagef(err, "Failed to marshal PKI public key")
 	}
-	h := sha256.Sum256(encoded)
-	return []byte(base64.StdEncoding.EncodeToString(h[:])), nil
+	return []byte(utils.Hashable(encoded).String()), nil
 }

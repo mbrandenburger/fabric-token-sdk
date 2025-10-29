@@ -23,7 +23,6 @@ import (
 	topology2 "github.com/hyperledger-labs/fabric-smart-client/integration/nwo/fabric/topology"
 	"github.com/hyperledger-labs/fabric-smart-client/integration/reporting/prometheus"
 	"github.com/hyperledger-labs/fabric-smart-client/pkg/utils/errors"
-	"github.com/hyperledger-labs/fabric-smart-client/platform/common/services/logging"
 	"github.com/hyperledger-labs/fabric-smart-client/platform/view/view"
 	tplatform "github.com/hyperledger-labs/fabric-token-sdk/integration/nwo/token"
 	gfabtokenv1 "github.com/hyperledger-labs/fabric-token-sdk/integration/nwo/token/generators/crypto/fabtokenv1"
@@ -42,6 +41,7 @@ import (
 	"github.com/hyperledger-labs/fabric-token-sdk/token/services/identity/x509"
 	"github.com/hyperledger-labs/fabric-token-sdk/token/services/ttx"
 	"github.com/hyperledger-labs/fabric-token-sdk/token/services/ttxdb"
+	"github.com/hyperledger-labs/fabric-token-sdk/token/services/utils"
 	"github.com/hyperledger-labs/fabric-token-sdk/token/token"
 	"github.com/onsi/gomega"
 	"github.com/prometheus/common/model"
@@ -1282,7 +1282,7 @@ func GetRevocationHandle(network *integration.Infrastructure, ref *token3.NodeRe
 	gomega.Expect(err).NotTo(gomega.HaveOccurred())
 	rh := &views.RevocationHandle{}
 	common.JSONUnmarshal(rhBoxed.([]byte), rh)
-	fmt.Printf("GetRevocationHandle [%s][%s]", rh.RH, logging.SHA256Base64([]byte(rh.RH)))
+	fmt.Printf("GetRevocationHandle [%s][%s]", rh.RH, utils.Hashable(rh.RH).String())
 	return rh.RH
 }
 

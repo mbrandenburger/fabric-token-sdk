@@ -9,7 +9,6 @@ package core
 import (
 	"bytes"
 	"context"
-	"crypto/sha256"
 	"os"
 	"runtime/debug"
 	"sync"
@@ -17,6 +16,7 @@ import (
 	"github.com/hyperledger-labs/fabric-smart-client/pkg/utils/errors"
 	"github.com/hyperledger-labs/fabric-token-sdk/token/driver"
 	"github.com/hyperledger-labs/fabric-token-sdk/token/services/logging"
+	"github.com/hyperledger-labs/fabric-token-sdk/token/services/utils"
 )
 
 var logger = logging.MustGetLogger()
@@ -140,8 +140,7 @@ func (m *TMSProvider) Update(opts driver.ServiceOptions) (err error) {
 		logger.Debugf("no service found, instantiate token management system for [%s:%s:%s] for key [%s]", opts.Network, opts.Channel, opts.Namespace, key)
 	} else {
 		// update only if the public params are different from the current
-		digest := sha256.Sum256(opts.PublicParams)
-		if bytes.Equal(service.PublicParamsManager().PublicParamsHash(), digest[:]) {
+		if bytes.Equal(service.PublicParamsManager().PublicParamsHash(), utils.Hashable(opts.PublicParams).Raw()) {
 			logger.Debugf("service found, no need to update token management system for [%s:%s:%s] for key [%s], public params are the same", opts.Network, opts.Channel, opts.Namespace, key)
 			return nil
 		}

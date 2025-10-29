@@ -7,7 +7,6 @@ SPDX-License-Identifier: Apache-2.0
 package tms
 
 import (
-	"crypto/sha256"
 	"reflect"
 
 	cdriver "github.com/hyperledger-labs/fabric-smart-client/platform/common/driver"
@@ -19,6 +18,7 @@ import (
 	"github.com/hyperledger-labs/fabric-token-sdk/token/services/network/common/rws/translator"
 	"github.com/hyperledger-labs/fabric-token-sdk/token/services/network/fabric"
 	"github.com/hyperledger-labs/fabric-token-sdk/token/services/network/fabricx/pp"
+	"github.com/hyperledger-labs/fabric-token-sdk/token/services/utils"
 	"github.com/hyperledger/fabric-x-committer/api/protoblocktx"
 )
 
@@ -122,13 +122,13 @@ func (s *deployerService) createPublicParametersTx(ppRaw []byte, namespaceID cdr
 		return nil, err
 	}
 
-	valueHash := sha256.Sum256(ppRaw)
+	valueHash := utils.Hashable(ppRaw).Raw()
 	tx := &protoblocktx.Tx{
 		Namespaces: []*protoblocktx.TxNamespace{{
 			NsId:        namespaceID,
 			NsVersion:   0,
 			ReadsOnly:   []*protoblocktx.Read{{Key: []byte("initialized")}},
-			BlindWrites: []*protoblocktx.Write{{Key: []byte(key), Value: ppRaw}, {Key: []byte(keyHash), Value: valueHash[:]}},
+			BlindWrites: []*protoblocktx.Write{{Key: []byte(key), Value: ppRaw}, {Key: []byte(keyHash), Value: valueHash}},
 		}},
 	}
 
